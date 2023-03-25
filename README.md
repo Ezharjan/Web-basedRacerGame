@@ -4,7 +4,9 @@ This a simple web-based racer game developed via pure Javascript and its canvas 
 
 Note that the core parts of these codes can be redeveloped in some common parts to make game engine APIs.
 
+<br>
 
+[Demo](https://ezharjan.github.io/Web-basedRacerGame)
 
 <br>
 <br>
