@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html>
+
+<body>
+
+    <canvas id="canvas" width="800" height="600" style="border:1px solid #d3d3d3;"> Your browser does not support the
+        HTML5 canvas tag.</canvas>
+    <script src="util.js"></script>
+    <script src="gameConfig.js"></script>
+    <script src="levelController.js"></script>
+    <script src="collisionDetection.js"></script>
+    <script src="obstacle.js"></script>
+    <script src="car.js"></script>
+    <script src="traffic.js"></script>
+    <script src="tree.js"></script>
+    <script src="scenario.js"></script>
+    <script src="score.js"></script>
+    <script src="game.js"></script>
+
+
+    <script>
+        Game.initialize();
+
+        Game.run = (function () {
+            var loops = 0;
+            var maxFrameSkip = 10;
+            var nextGameTick = (new Date).getTime();
+
+            var points = 0.0;
+
+            return function () {
+                loops = 0;
+
+                while ((new Date).getTime() > nextGameTick) {
+                    Game.update();
+
+                    nextGameTick += Game.skipTicks;
+
+                    loops++;
+                    points++;
+
+                    if (Game.skipTicks > 0.8) {
+                        Game.skipTicks = 1000 / Game.fps;
+                    }
+
+                }
+
+                Game.draw(points);
+            };
+        })();
+
+        (function () {
+            var onEachFrame;
+            if (window.webkitRequestAnimationFrame) {
+                onEachFrame = function (cb) {
+                    var _cb = function () {
+                        cb();
+                        webkitRequestAnimationFrame(_cb);
+                    }
+                    _cb();
+                };
+            }
+            else if (window.mozRequestAnimationFrame) {
+                onEachFrame = function (cb) {
+                    var _cb = function () {
+                        cb();
+                        mozRequestAnimationFrame(_cb);
+                    }
+                    _cb();
+                };
+            }
+            else {
+                onEachFrame = function (cb) {
+                    setInterval(cb, 1000 / 60);
+                }
+            }
+
+            window.onEachFrame = onEachFrame;
+        })();
+
+        window.onEachFrame(Game.run);
+    </script>
+
+</body>
+
+</html>
